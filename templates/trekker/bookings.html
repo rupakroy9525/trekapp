@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% from "partials/_badges.html" import status_badge %}
+{% block title %}My Bookings{% endblock %}
+{% block content %}
+<h2 class="display-title mb-4">My Bookings & Trekking History</h2>
+
+<div class="table-responsive">
+  <table class="table table-trek bg-white align-middle">
+    <thead><tr><th>Trek</th><th>Location</th><th>Booked On</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      {% for b in bookings %}
+      <tr>
+        <td>{{ b.trek.name }}</td>
+        <td>{{ b.trek.location }}</td>
+        <td>{{ b.booking_date.strftime('%d %b %Y') }}</td>
+        <td>{{ status_badge(b.status) }}</td>
+        <td>
+          {% if b.status == 'Booked' %}
+          <form method="post" action="{{ url_for('trekker.cancel_booking', booking_id=b.id) }}"
+                onsubmit="return confirm('Cancel this booking?');">
+            <button class="btn btn-sm btn-outline-danger">Cancel</button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5" class="text-center text-muted py-3">No bookings yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

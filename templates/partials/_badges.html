@@ -1,0 +1,23 @@
+{% macro status_badge(status) -%}
+  {%- set cls = {
+    'Pending': 'badge-status-pending',
+    'Approved': 'badge-status-approved',
+    'Open': 'badge-status-open',
+    'Closed': 'badge-status-closed',
+    'Completed': 'badge-status-completed',
+    'Active': 'badge-status-active',
+    'Blacklisted': 'badge-status-blacklisted',
+    'Booked': 'badge-status-open',
+    'Cancelled': 'badge-status-blacklisted',
+  }.get(status, 'badge-status-pending') -%}
+  <span class="badge {{ cls }} rounded-pill">{{ status }}</span>
+{%- endmacro %}
+
+{% macro difficulty_badge(difficulty) -%}
+  {%- set cls = {
+    'Easy': 'badge-easy',
+    'Moderate': 'badge-moderate',
+    'Hard': 'badge-hard',
+  }.get(difficulty, 'badge-easy') -%}
+  <span class="badge {{ cls }} rounded-pill">{{ difficulty }}</span>
+{%- endmacro %}

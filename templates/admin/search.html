@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% from "partials/_badges.html" import status_badge, difficulty_badge %}
+{% block title %}Search{% endblock %}
+{% block content %}
+<h2 class="display-title mb-4">Search</h2>
+
+<form class="row g-2 mb-4" method="get">
+  <div class="col-auto flex-grow-1">
+    <input type="text" class="form-control" name="q" value="{{ q }}" placeholder="Search by name or ID...">
+  </div>
+  <div class="col-auto">
+    <button class="btn btn-forest" type="submit">Search</button>
+  </div>
+</form>
+
+{% if q %}
+<h5>Treks</h5>
+<div class="table-responsive mb-4">
+  <table class="table table-trek bg-white align-middle">
+    <thead><tr><th>ID</th><th>Name</th><th>Location</th><th>Difficulty</th><th>Status</th></tr></thead>
+    <tbody>
+      {% for t in trek_results %}
+      <tr>
+        <td>{{ t.id }}</td>
+        <td><a href="{{ url_for('admin.trek_edit', trek_id=t.id) }}">{{ t.name }}</a></td>
+        <td>{{ t.location }}</td>
+        <td>{{ difficulty_badge(t.difficulty) }}</td>
+        <td>{{ status_badge(t.status) }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5" class="text-center text-muted py-2">No matching treks.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<h5>Trek Staff</h5>
+<div class="table-responsive mb-4">
+  <table class="table table-trek bg-white align-middle">
+    <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Status</th></tr></thead>
+    <tbody>
+      {% for s in staff_results %}
+      <tr><td>{{ s.id }}</td><td>{{ s.name }}</td><td>{{ s.email }}</td><td>{{ status_badge(s.status) }}</td></tr>
+      {% else %}
+      <tr><td colspan="4" class="text-center text-muted py-2">No matching staff.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<h5>Trekkers</h5>
+<div class="table-responsive">
+  <table class="table table-trek bg-white align-middle">
+    <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Status</th></tr></thead>
+    <tbody>
+      {% for u in user_results %}
+      <tr><td>{{ u.id }}</td><td>{{ u.name }}</td><td>{{ u.email }}</td><td>{{ status_badge(u.status) }}</td></tr>
+      {% else %}
+      <tr><td colspan="4" class="text-center text-muted py-2">No matching trekkers.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p class="text-muted">Enter a name or ID above to search across treks, staff, and trekkers.</p>
+{% endif %}
+{% endblock %}

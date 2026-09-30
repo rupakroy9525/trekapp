@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Login &mdash; Trek Manager{% endblock %}
+{% block content %}
+<div class="auth-shell rounded-4">
+  <div class="auth-card">
+    <div class="brand-mark fw-semibold mb-1"><span class="peak">&#9650;</span> Trek Manager</div>
+    <p class="section-label mb-4">Sign in to continue</p>
+
+    <form method="post">
+      <div class="mb-3">
+        <label class="form-label">Email address</label>
+        <input type="email" class="form-control" name="email" required autofocus>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-control" name="password" required>
+      </div>
+      <button type="submit" class="btn btn-forest w-100">Log In</button>
+    </form>
+
+    <hr class="my-4">
+    <p class="text-center mb-1">New here?</p>
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('auth.register_trekker') }}" class="btn btn-outline-secondary btn-sm w-100">Join as Trekker</a>
+      <a href="{{ url_for('auth.register_staff') }}" class="btn btn-outline-secondary btn-sm w-100">Join as Staff</a>
+    </div>
+    <p class="text-muted small mt-3 mb-0">Admin accounts are pre-provisioned and cannot self-register.</p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% from "partials/_badges.html" import status_badge, difficulty_badge %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<p class="section-label mb-1">Admin</p>
+<h2 class="display-title mb-4">Control Center</h2>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3">
+    <div class="stat-card">
+      <div class="stat-value">{{ total_treks }}</div>
+      <div class="stat-label">Total Treks</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="stat-card">
+      <div class="stat-value">{{ total_users }}</div>
+      <div class="stat-label">Trekkers</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="stat-card">
+      <div class="stat-value">{{ total_staff }}</div>
+      <div class="stat-label">Trek Staff</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="stat-card">
+      <div class="stat-value">{{ total_bookings }}</div>
+      <div class="stat-label">Bookings</div>
+    </div>
+  </div>
+</div>
+
+{% if pending_staff > 0 %}
+<div class="alert alert-warning d-flex justify-content-between align-items-center">
+  <span>{{ pending_staff }} staff registration(s) awaiting approval.</span>
+  <a href="{{ url_for('admin.staff_list') }}" class="btn btn-sm btn-forest">Review Staff</a>
+</div>
+{% endif %}
+
+<div class="d-flex justify-content-between align-items-center mt-4 mb-3">
+  <h5 class="mb-0">Recently Added Treks</h5>
+  <a href="{{ url_for('admin.trek_new') }}" class="btn btn-amber btn-sm">+ New Trek</a>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-trek align-middle bg-white">
+    <thead>
+      <tr><th>ID</th><th>Name</th><th>Location</th><th>Difficulty</th><th>Slots</th><th>Status</th><th>Staff</th></tr>
+    </thead>
+    <tbody>
+      {% for trek in recent_treks %}
+      <tr>
+        <td>{{ trek.id }}</td>
+        <td><a href="{{ url_for('admin.trek_edit', trek_id=trek.id) }}">{{ trek.name }}</a></td>
+        <td>{{ trek.location }}</td>
+        <td>{{ difficulty_badge(trek.difficulty) }}</td>
+        <td>{{ trek.available_slots }}/{{ trek.total_slots }}</td>
+        <td>{{ status_badge(trek.status) }}</td>
+        <td>{{ trek.staff.name if trek.staff else '—' }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="7" class="text-center text-muted py-3">No treks yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

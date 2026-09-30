@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% from "partials/_badges.html" import status_badge, difficulty_badge %}
+{% block title %}My Treks{% endblock %}
+{% block content %}
+<p class="section-label mb-1">Trek Staff</p>
+<h2 class="display-title mb-4">Welcome, {{ current_user.name }}</h2>
+
+<div class="row g-3">
+  {% for trek, participant_count in trek_stats %}
+  <div class="col-md-6 col-lg-4">
+    <div class="card-trek p-3 h-100 d-flex flex-column">
+      <div class="d-flex justify-content-between align-items-start mb-2">
+        <h5 class="mb-0">{{ trek.name }}</h5>
+        {{ status_badge(trek.status) }}
+      </div>
+      <p class="text-muted mb-1">{{ trek.location }} &middot; {{ difficulty_badge(trek.difficulty) }}</p>
+      <p class="mb-1">Slots: <strong>{{ trek.available_slots }}/{{ trek.total_slots }}</strong></p>
+      <p class="mb-3">Registered trekkers: <strong>{{ participant_count }}</strong></p>
+      <a href="{{ url_for('staff.trek_detail', trek_id=trek.id) }}" class="btn btn-forest mt-auto">Manage</a>
+    </div>
+  </div>
+  {% else %}
+  <div class="col-12">
+    <p class="text-muted">No treks assigned to you yet. Once the admin assigns a trek, it will appear here.</p>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% from "partials/_badges.html" import difficulty_badge %}
+{% block title %}Browse Treks{% endblock %}
+{% block content %}
+<h2 class="display-title mb-4">Browse Open Treks</h2>
+
+<form class="row g-2 mb-4" method="get">
+  <div class="col-md-4">
+    <input type="text" class="form-control" name="q" value="{{ q }}" placeholder="Search by name or location...">
+  </div>
+  <div class="col-md-3">
+    <select class="form-select" name="difficulty">
+      <option value="">Any difficulty</option>
+      {% for d in difficulties %}
+      <option value="{{ d }}" {% if difficulty == d %}selected{% endif %}>{{ d }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-3">
+    <input type="text" class="form-control" name="location" value="{{ location }}" placeholder="Filter by location...">
+  </div>
+  <div class="col-md-2">
+    <button class="btn btn-forest w-100" type="submit">Filter</button>
+  </div>
+</form>
+
+<div class="row g-3">
+  {% for trek in treks %}
+  <div class="col-md-6 col-lg-4">
+    <div class="card-trek p-3 h-100 d-flex flex-column">
+      <div class="d-flex justify-content-between align-items-start mb-2">
+        <h6 class="mb-0">{{ trek.name }}</h6>
+        {{ difficulty_badge(trek.difficulty) }}
+      </div>
+      <p class="text-muted small mb-1">{{ trek.location }} &middot; {{ trek.duration_days }} day(s)</p>
+      <p class="mb-3 small">Slots left: <strong>{{ trek.available_slots }}</strong></p>
+      {% if trek.id in my_active_trek_ids %}
+        <span class="btn btn-outline-secondary btn-sm mt-auto disabled">Already Booked</span>
+      {% else %}
+        <a href="{{ url_for('trekker.trek_detail', trek_id=trek.id) }}" class="btn btn-forest btn-sm mt-auto">View & Book</a>
+      {% endif %}
+    </div>
+  </div>
+  {% else %}
+  <div class="col-12"><p class="text-muted">No treks match your filters.</p></div>
+  {% endfor %}
+</div>
+{% endblock %}

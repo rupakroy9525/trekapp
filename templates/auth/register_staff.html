@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Staff Registration &mdash; Trek Manager{% endblock %}
+{% block content %}
+<div class="auth-shell rounded-4">
+  <div class="auth-card">
+    <div class="brand-mark fw-semibold mb-1"><span class="peak">&#9650;</span> Trek Manager</div>
+    <p class="section-label mb-4">Register as Trek Staff</p>
+    <p class="text-muted small">Your account will need admin approval before you can access the staff dashboard.</p>
+
+    <form method="post">
+      <div class="mb-3">
+        <label class="form-label">Full name</label>
+        <input type="text" class="form-control" name="name" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Email address</label>
+        <input type="email" class="form-control" name="email" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Phone</label>
+        <input type="text" class="form-control" name="phone">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-control" name="password" required minlength="6">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Confirm password</label>
+        <input type="password" class="form-control" name="confirm_password" required minlength="6">
+      </div>
+      <button type="submit" class="btn btn-forest w-100">Submit for Approval</button>
+    </form>
+    <p class="text-center mt-3 mb-0"><a href="{{ url_for('auth.login') }}">Back to login</a></p>
+  </div>
+</div>
+{% endblock %}

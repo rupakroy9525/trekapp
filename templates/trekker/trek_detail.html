@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% from "partials/_badges.html" import status_badge, difficulty_badge %}
+{% block title %}{{ trek.name }}{% endblock %}
+{% block content %}
+<h2 class="display-title mb-1">{{ trek.name }}</h2>
+<p class="text-muted mb-3">{{ trek.location }} &middot; {{ difficulty_badge(trek.difficulty) }} &middot; {{ status_badge(trek.status) }}</p>
+
+<div class="card-trek p-4" style="max-width: 640px;">
+  <p>{{ trek.description or "No description provided." }}</p>
+  <ul class="list-unstyled mb-4">
+    <li><strong>Duration:</strong> {{ trek.duration_days }} day(s)</li>
+    <li><strong>Slots:</strong> {{ trek.available_slots }} available of {{ trek.total_slots }}</li>
+    <li><strong>Dates:</strong>
+      {{ trek.start_date.strftime('%d %b %Y') if trek.start_date else '—' }}
+      &rarr;
+      {{ trek.end_date.strftime('%d %b %Y') if trek.end_date else '—' }}
+    </li>
+    <li><strong>Guide:</strong> {{ trek.staff.name if trek.staff else 'To be assigned' }}</li>
+  </ul>
+
+  {% if already_booked %}
+    <span class="btn btn-outline-secondary disabled">You've already booked this trek</span>
+  {% elif trek.status != 'Open' %}
+    <span class="btn btn-outline-secondary disabled">Bookings not open for this trek</span>
+  {% elif trek.available_slots <= 0 %}
+    <span class="btn btn-outline-secondary disabled">Fully booked</span>
+  {% else %}
+    <form method="post" action="{{ url_for('trekker.book_trek', trek_id=trek.id) }}">
+      <button type="submit" class="btn btn-amber">Book This Trek</button>
+    </form>
+  {% endif %}
+</div>
+{% endblock %}

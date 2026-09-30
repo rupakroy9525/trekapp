@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% from "partials/_badges.html" import status_badge, difficulty_badge %}
+{% block title %}My Dashboard{% endblock %}
+{% block content %}
+<p class="section-label mb-1">Trekker</p>
+<h2 class="display-title mb-4">Welcome, {{ current_user.name }}</h2>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h5 class="mb-0">Open Treks</h5>
+  <a href="{{ url_for('trekker.treks') }}" class="btn btn-amber btn-sm">Browse All</a>
+</div>
+<div class="row g-3 mb-4">
+  {% for trek in open_treks %}
+  <div class="col-md-6 col-lg-4">
+    <div class="card-trek p-3 h-100 d-flex flex-column">
+      <div class="d-flex justify-content-between align-items-start mb-2">
+        <h6 class="mb-0">{{ trek.name }}</h6>
+        {{ difficulty_badge(trek.difficulty) }}
+      </div>
+      <p class="text-muted small mb-2">{{ trek.location }} &middot; {{ trek.duration_days }}d</p>
+      <p class="mb-3 small">Slots left: <strong>{{ trek.available_slots }}</strong></p>
+      <a href="{{ url_for('trekker.trek_detail', trek_id=trek.id) }}" class="btn btn-outline-secondary btn-sm mt-auto">View</a>
+    </div>
+  </div>
+  {% else %}
+  <div class="col-12"><p class="text-muted">No open treks right now — check back soon.</p></div>
+  {% endfor %}
+</div>
+
+<h5 class="mb-3">Your Active Bookings</h5>
+<div class="table-responsive">
+  <table class="table table-trek bg-white align-middle">
+    <thead><tr><th>Trek</th><th>Location</th><th>Status</th></tr></thead>
+    <tbody>
+      {% for b in my_bookings %}
+      <tr>
+        <td>{{ b.trek.name }}</td>
+        <td>{{ b.trek.location }}</td>
+        <td>{{ status_badge(b.trek.status) }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="3" class="text-center text-muted py-3">You haven't booked any treks yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

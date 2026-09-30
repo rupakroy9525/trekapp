@@ -1,0 +1,185 @@
+/* ---------------------------------------------------------------------
+   Trekking Management App — design tokens
+   Palette: deep forest, moss, glacier blue, sunrise amber, warm stone
+   Type: Fraunces (display) + Inter (body/UI)
+--------------------------------------------------------------------- */
+:root {
+  --forest: #1f3b2c;
+  --forest-dark: #142a1e;
+  --moss: #4c7a5e;
+  --glacier: #6fa8b8;
+  --amber: #e0a94e;
+  --stone: #eef2ea;
+  --stone-dark: #dfe6da;
+  --charcoal: #23252a;
+  --paper: #fbfbf8;
+}
+
+body {
+  background-color: var(--stone);
+  color: var(--charcoal);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+h1, h2, h3, h4, h5, .display-title, .brand-mark {
+  font-family: 'Fraunces', Georgia, serif;
+  letter-spacing: -0.01em;
+}
+
+/* ---- Navbar --------------------------------------------------------- */
+.navbar-trek {
+  background: var(--forest);
+  border-bottom: 3px solid var(--amber);
+}
+.navbar-trek .navbar-brand {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  color: var(--stone) !important;
+  font-size: 1.35rem;
+}
+.navbar-trek .navbar-brand .peak {
+  color: var(--amber);
+}
+.navbar-trek .nav-link {
+  color: rgba(238, 242, 234, 0.85) !important;
+  font-weight: 500;
+}
+.navbar-trek .nav-link:hover,
+.navbar-trek .nav-link.active {
+  color: var(--amber) !important;
+}
+.navbar-trek .badge-role {
+  background: var(--moss);
+  color: var(--paper);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ---- Elevation line motif (signature element) ------------------------ */
+.elevation-rule {
+  height: 22px;
+  width: 100%;
+  background-image: repeating-linear-gradient(
+    100deg,
+    transparent 0,
+    transparent 18px,
+    var(--moss) 18px,
+    var(--moss) 20px
+  );
+  opacity: 0.35;
+  clip-path: polygon(0 100%, 5% 60%, 12% 85%, 20% 40%, 30% 70%, 40% 20%, 52% 60%,
+    62% 35%, 72% 65%, 82% 15%, 92% 55%, 100% 30%, 100% 100%);
+  background-color: var(--moss);
+  margin-bottom: -2px;
+}
+
+/* ---- Cards & surfaces ------------------------------------------------- */
+.card-trek {
+  background: var(--paper);
+  border: 1px solid var(--stone-dark);
+  border-radius: 10px;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+.card-trek:hover {
+  box-shadow: 0 8px 20px rgba(31, 59, 44, 0.12);
+  transform: translateY(-2px);
+}
+.stat-card {
+  background: var(--forest);
+  color: var(--paper);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card .stat-value {
+  font-family: 'Fraunces', serif;
+  font-size: 2.25rem;
+  font-weight: 600;
+  color: var(--amber);
+}
+.stat-card .stat-label {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.75rem;
+  color: rgba(251, 251, 248, 0.75);
+}
+
+/* ---- Difficulty badges ------------------------------------------------ */
+.badge-easy { background: #7fae63; color: #133014; }
+.badge-moderate { background: var(--amber); color: #3a2703; }
+.badge-hard { background: #b1503f; color: #fff; }
+
+/* ---- Status badges ------------------------------------------------- */
+.badge-status-pending { background: #cfcabb; color: #3a3624; }
+.badge-status-approved { background: var(--glacier); color: #0d2a30; }
+.badge-status-open { background: var(--moss); color: #f2f7ef; }
+.badge-status-closed { background: #7a7a7a; color: #fff; }
+.badge-status-completed { background: var(--forest); color: var(--amber); }
+.badge-status-blacklisted { background: #8a1f1f; color: #fff; }
+.badge-status-active { background: var(--moss); color: #f2f7ef; }
+
+/* ---- Buttons ----------------------------------------------------------*/
+.btn-forest {
+  background: var(--forest);
+  border-color: var(--forest);
+  color: var(--paper);
+}
+.btn-forest:hover {
+  background: var(--forest-dark);
+  border-color: var(--forest-dark);
+  color: var(--amber);
+}
+.btn-amber {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: #3a2703;
+  font-weight: 600;
+}
+.btn-amber:hover {
+  background: #cf9738;
+  border-color: #cf9738;
+  color: #241802;
+}
+
+/* ---- Auth pages ------------------------------------------------------ */
+.auth-shell {
+  min-height: calc(100vh - 56px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, var(--forest) 0%, var(--forest) 38%, var(--stone) 38%);
+}
+.auth-card {
+  background: var(--paper);
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(20, 42, 30, 0.25);
+  max-width: 430px;
+  width: 100%;
+  padding: 2.25rem;
+}
+.auth-card .brand-mark {
+  color: var(--forest);
+  font-size: 1.6rem;
+}
+.auth-card .brand-mark .peak { color: var(--amber); }
+
+/* ---- Footer ------------------------------------------------------------*/
+.site-footer {
+  background: var(--forest);
+  color: rgba(238, 242, 234, 0.7);
+  font-size: 0.85rem;
+}
+
+/* ---- Misc -------------------------------------------------------------*/
+.section-label {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  color: var(--moss);
+  font-weight: 600;
+}
+a { color: var(--forest); }
+a:hover { color: var(--amber); }
+.table-trek thead { background: var(--forest); color: var(--paper); }

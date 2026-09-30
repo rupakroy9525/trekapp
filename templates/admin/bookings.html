@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% from "partials/_badges.html" import status_badge %}
+{% block title %}All Bookings{% endblock %}
+{% block content %}
+<h2 class="display-title mb-4">All Bookings</h2>
+
+<div class="table-responsive">
+  <table class="table table-trek align-middle bg-white">
+    <thead>
+      <tr><th>ID</th><th>Trekker</th><th>Trek</th><th>Booked On</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      {% for b in bookings %}
+      <tr>
+        <td>{{ b.id }}</td>
+        <td>{{ b.trekker.name }} <span class="text-muted small">({{ b.trekker.email }})</span></td>
+        <td>{{ b.trek.name }} <span class="text-muted small">— {{ b.trek.location }}</span></td>
+        <td>{{ b.booking_date.strftime('%d %b %Y, %H:%M') }}</td>
+        <td>{{ status_badge(b.status) }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5" class="text-center text-muted py-3">No bookings yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

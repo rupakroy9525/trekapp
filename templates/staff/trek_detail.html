@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% from "partials/_badges.html" import status_badge, difficulty_badge %}
+{% block title %}{{ trek.name }}{% endblock %}
+{% block content %}
+<h2 class="display-title mb-1">{{ trek.name }}</h2>
+<p class="text-muted mb-4">{{ trek.location }} &middot; {{ difficulty_badge(trek.difficulty) }} &middot; {{ trek.duration_days }} day(s)</p>
+
+<div class="row g-4">
+  <div class="col-md-5">
+    <div class="card-trek p-4">
+      <h5 class="mb-3">Update Trek</h5>
+      <form method="post">
+        <div class="mb-3">
+          <label class="form-label">Total slots</label>
+          <input type="number" min="0" class="form-control" name="total_slots" value="{{ trek.total_slots }}">
+          <div class="form-text">Currently {{ trek.total_slots - trek.available_slots }} booked, {{ trek.available_slots }} available.</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Trek status</label>
+          <select class="form-select" name="status">
+            {% for st in ['Approved', 'Open', 'Closed', 'Completed'] %}
+            <option value="{{ st }}" {% if trek.status == st %}selected{% endif %} {% if st == 'Approved' %}disabled{% endif %}>{{ st }}</option>
+            {% endfor %}
+          </select>
+          <div class="form-text">Set to <strong>Open</strong> to allow trekker bookings.</div>
+        </div>
+        <button type="submit" class="btn btn-forest w-100">Save</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="col-md-7">
+    <h5 class="mb-3">Registered Trekkers ({{ participants|length }})</h5>
+    <div class="table-responsive">
+      <table class="table table-trek bg-white align-middle">
+        <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Booked On</th></tr></thead>
+        <tbody>
+          {% for b in participants %}
+          <tr>
+            <td>{{ b.trekker.name }}</td>
+            <td>{{ b.trekker.email }}</td>
+            <td>{{ b.trekker.phone or '—' }}</td>
+            <td>{{ b.booking_date.strftime('%d %b %Y') }}</td>
+          </tr>
+          {% else %}
+          <tr><td colspan="4" class="text-center text-muted py-3">No trekkers registered yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

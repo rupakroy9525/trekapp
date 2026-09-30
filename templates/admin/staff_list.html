@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% from "partials/_badges.html" import status_badge %}
+{% block title %}Trek Staff{% endblock %}
+{% block content %}
+<h2 class="display-title mb-4">Trek Staff</h2>
+
+<form class="row g-2 mb-3" method="get">
+  <div class="col-auto flex-grow-1">
+    <input type="text" class="form-control" name="q" value="{{ q }}" placeholder="Search by name or email...">
+  </div>
+  <div class="col-auto">
+    <button class="btn btn-forest" type="submit">Search</button>
+  </div>
+</form>
+
+<div class="table-responsive">
+  <table class="table table-trek align-middle bg-white">
+    <thead>
+      <tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Status</th><th>Assigned Treks</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for s in staff %}
+      <tr>
+        <td>{{ s.id }}</td>
+        <td>{{ s.name }}</td>
+        <td>{{ s.email }}</td>
+        <td>{{ s.phone or '—' }}</td>
+        <td>{{ status_badge(s.status) }}</td>
+        <td>{{ s.assigned_treks|length }}</td>
+        <td class="text-nowrap">
+          {% if s.status == 'Pending' %}
+          <form method="post" action="{{ url_for('admin.staff_approve', staff_id=s.id) }}" class="d-inline">
+            <button class="btn btn-sm btn-forest">Approve</button>
+          </form>
+          {% endif %}
+          {% if s.status != 'Blacklisted' %}
+          <form method="post" action="{{ url_for('admin.staff_blacklist', staff_id=s.id) }}" class="d-inline"
+                onsubmit="return confirm('Blacklist this staff member?');">
+            <button class="btn btn-sm btn-outline-danger">Blacklist</button>
+          </form>
+          {% else %}
+          <form method="post" action="{{ url_for('admin.staff_reactivate', staff_id=s.id) }}" class="d-inline">
+            <button class="btn btn-sm btn-outline-secondary">Reactivate</button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="7" class="text-center text-muted py-3">No staff found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
